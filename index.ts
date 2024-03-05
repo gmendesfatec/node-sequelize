@@ -1,9 +1,9 @@
 import connect from "./db_connection";
 import { DataTypes } from "sequelize";
-import * as Express from 'express';
+import express from 'express';
 
 // Create application with express
-const app = Express();
+const app = express();
 
 // Connect com o database
 const db = connect();
@@ -41,7 +41,7 @@ const agendamentos = db.define("agendamentos", {
 //     observacao: string
 // };
 
-app.get('/cadastrar/', (req: Express.Request, res: Express.Response) => {
+app.get('/cadastrar/', (req, res) => {
     try {
         agendamentos.create({
             nome: req.query.nome,

@@ -1,13 +1,16 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var db_connection_1 = require("./db_connection");
-var sequelize_1 = require("sequelize");
-var Express = require("express");
+const db_connection_1 = __importDefault(require("./db_connection"));
+const sequelize_1 = require("sequelize");
+const express_1 = __importDefault(require("express"));
 // Create application with express
-var app = Express();
+const app = (0, express_1.default)();
 // Connect com o database
-var db = (0, db_connection_1.default)();
-var agendamentos = db.define("agendamentos", {
+const db = (0, db_connection_1.default)();
+const agendamentos = db.define("agendamentos", {
     nome: {
         type: sequelize_1.DataTypes.STRING
     },
@@ -27,7 +30,7 @@ var agendamentos = db.define("agendamentos", {
         type: sequelize_1.DataTypes.STRING
     }
 });
-agendamentos.sync({ force: true });
+// agendamentos.sync({ force: true });
 // interface DBData {
 //     nome: string,
 //     endereco: string,
@@ -37,7 +40,7 @@ agendamentos.sync({ force: true });
 //     estado: string,
 //     observacao: string
 // };
-app.get('/cadastrar/', function (req, res) {
+app.get('/cadastrar/', (req, res) => {
     try {
         agendamentos.create({
             nome: req.query.nome,
@@ -53,7 +56,7 @@ app.get('/cadastrar/', function (req, res) {
     catch (err) {
         res.status(500).json({
             msg: "Erro ao cadastrar os dados",
-            err: err
+            err
         });
     }
 });
