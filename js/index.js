@@ -54,5 +54,8 @@ function inserirDados(req, res, next) {
     }
     next();
 }
-app.get('/cadastrar/', inserirDados);
+/*  Query for test
+    ?nome=gabriel&endereco=rua&bairro=sp&estado=spdnv&cep=111&observacao=teste
+*/
+app.get('/cadastrar', inserirDados);
 app.listen(3000);
