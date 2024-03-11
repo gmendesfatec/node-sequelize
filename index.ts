@@ -1,13 +1,14 @@
 import connect from "./db_connection";
 import { DataTypes } from "sequelize";
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 
 // Create application with express
 const app = express();
 
-// Connect com o database
+// Connect to databse
 const db = connect();
 
+// Create agendamentos table
 const agendamentos = db.define("agendamentos", {
     nome: {
         type: DataTypes.STRING
@@ -29,19 +30,10 @@ const agendamentos = db.define("agendamentos", {
     }
 })
 
-// agendamentos.sync({ force: true });
+agendamentos.sync();
 
-// interface DBData {
-//     nome: string,
-//     endereco: string,
-//     bairro: string,
-//     cep: number,
-//     cidade: string,
-//     estado: string,
-//     observacao: string
-// };
-
-app.get('/cadastrar/', (req, res) => {
+// Middleware for insert data into database
+function inserirDados(req: Request, res: Response, next: NextFunction) {
     try {
         agendamentos.create({
             nome: req.query.nome,
@@ -60,7 +52,14 @@ app.get('/cadastrar/', (req, res) => {
             err
         })
     }
-})
+
+    next()
+}
+
+/*  Query for test
+    ?nome=gabriel&endereco=rua&bairro=sp&estado=spdnv&cep=111&observacao=teste
+*/
+app.get('/cadastrar', inserirDados)
 
 
 app.listen(3000);
